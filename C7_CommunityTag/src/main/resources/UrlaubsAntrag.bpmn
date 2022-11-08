@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_11x8ike" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.4.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.18.0">
+  <bpmn:process id="ValidateVacationProcess" name="Urlaubsantrag Prüfen" isExecutable="true">
+    <bpmn:sequenceFlow id="Flow_0j7vh8b" sourceRef="VacationProcess_MsgStartEvent" targetRef="ValidateVacation_ServiceTask" />
+    <bpmn:startEvent id="VacationProcess_MsgStartEvent" name="Urlaubsantrag prüfen">
+      <bpmn:outgoing>Flow_0j7vh8b</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1vl3n1h" messageRef="Message_1al9vei" />
+    </bpmn:startEvent>
+    <bpmn:exclusiveGateway id="Gateway_1ycztdm" name="Genehmigt?">
+      <bpmn:incoming>Flow_1x6lvcv</bpmn:incoming>
+      <bpmn:outgoing>Flow_0onk5pb</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1npmsa9</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_1x6lvcv" sourceRef="ValidateVacation_ServiceTask" targetRef="Gateway_1ycztdm" />
+    <bpmn:sequenceFlow id="Flow_0onk5pb" name="Ja" sourceRef="Gateway_1ycztdm" targetRef="BookVacation_ExternalServiceTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${approved}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:sequenceFlow id="Flow_112od3z" sourceRef="BookVacation_ExternalServiceTask" targetRef="SendApproval_ServiceTask" />
+    <bpmn:sequenceFlow id="Flow_1npmsa9" name="Nein" sourceRef="Gateway_1ycztdm" targetRef="SendRejection_ServiceTask">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${!approved}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:endEvent id="VacationProcess_RejectionEndEvent" name="Urlaubsantrag abgelehnt">
+      <bpmn:incoming>Flow_10bwoew</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_10bwoew" sourceRef="SendRejection_ServiceTask" targetRef="VacationProcess_RejectionEndEvent" />
+    <bpmn:endEvent id="VacationProcess_ApprovalEndEvent" name="Urlaubsantrag angenommen">
+      <bpmn:incoming>Flow_06me9pf</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_06me9pf" sourceRef="SendApproval_ServiceTask" targetRef="VacationProcess_ApprovalEndEvent" />
+    <bpmn:serviceTask id="ValidateVacation_ServiceTask" name="Urlaub prüfen" camunda:asyncBefore="true" camunda:delegateExpression="${vacationCheckerDelegate}">
+      <bpmn:incoming>Flow_0j7vh8b</bpmn:incoming>
+      <bpmn:outgoing>Flow_1x6lvcv</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="BookVacation_ExternalServiceTask" name="Urlaub in System buchen" camunda:type="external" camunda:topic="vacationBooking">
+      <bpmn:incoming>Flow_0onk5pb</bpmn:incoming>
+      <bpmn:outgoing>Flow_112od3z</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="SendRejection_ServiceTask" name="Ablehnung an Mitarbeiter senden" camunda:asyncBefore="true" camunda:delegateExpression="${sendMailDelegate}">
+      <bpmn:incoming>Flow_1npmsa9</bpmn:incoming>
+      <bpmn:outgoing>Flow_10bwoew</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="SendApproval_ServiceTask" name="Genehmigung an Mitarbeiter senden" camunda:asyncBefore="true" camunda:delegateExpression="${sendMailDelegate}">
+      <bpmn:incoming>Flow_112od3z</bpmn:incoming>
+      <bpmn:outgoing>Flow_06me9pf</bpmn:outgoing>
+    </bpmn:serviceTask>
+  </bpmn:process>
+  <bpmn:message id="Message_1al9vei" name="VacationStart_Message" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="ValidateVacationProcess">
+      <bpmndi:BPMNShape id="Event_0wm4nb5_di" bpmnElement="VacationProcess_MsgStartEvent">
+        <dc:Bounds x="179" y="109" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="162" y="152" width="70" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_1ycztdm_di" bpmnElement="Gateway_1ycztdm" isMarkerVisible="true">
+        <dc:Bounds x="446" y="102" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="441" y="78" width="60" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1yfp0hi_di" bpmnElement="VacationProcess_RejectionEndEvent">
+        <dc:Bounds x="902" y="222" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="885" y="265" width="70" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_001l67h_di" bpmnElement="VacationProcess_ApprovalEndEvent">
+        <dc:Bounds x="902" y="109" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="885" y="152" width="70" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_11bg3d8_di" bpmnElement="ValidateVacation_ServiceTask">
+        <dc:Bounds x="278" y="87" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0jmwhs8_di" bpmnElement="BookVacation_ExternalServiceTask">
+        <dc:Bounds x="560" y="87" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1unfdvl_di" bpmnElement="SendRejection_ServiceTask">
+        <dc:Bounds x="560" y="200" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_19ugeti_di" bpmnElement="SendApproval_ServiceTask">
+        <dc:Bounds x="730" y="87" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0j7vh8b_di" bpmnElement="Flow_0j7vh8b">
+        <di:waypoint x="215" y="127" />
+        <di:waypoint x="278" y="127" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1x6lvcv_di" bpmnElement="Flow_1x6lvcv">
+        <di:waypoint x="378" y="127" />
+        <di:waypoint x="446" y="127" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0onk5pb_di" bpmnElement="Flow_0onk5pb">
+        <di:waypoint x="496" y="127" />
+        <di:waypoint x="560" y="127" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="516" y="109" width="12" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_112od3z_di" bpmnElement="Flow_112od3z">
+        <di:waypoint x="660" y="127" />
+        <di:waypoint x="730" y="127" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1npmsa9_di" bpmnElement="Flow_1npmsa9">
+        <di:waypoint x="471" y="152" />
+        <di:waypoint x="471" y="240" />
+        <di:waypoint x="560" y="240" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="510" y="223" width="23" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_10bwoew_di" bpmnElement="Flow_10bwoew">
+        <di:waypoint x="660" y="240" />
+        <di:waypoint x="902" y="240" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_06me9pf_di" bpmnElement="Flow_06me9pf">
+        <di:waypoint x="830" y="127" />
+        <di:waypoint x="902" y="127" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
