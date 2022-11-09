@@ -16,12 +16,15 @@ import io.camunda.zeebe.process.test.assertions.BpmnAssert;
 import io.camunda.zeebe.process.test.inspections.InspectionUtility;
 import io.camunda.zeebe.process.test.inspections.model.InspectedProcessInstance;
 import io.camunda.zeebe.spring.test.ZeebeSpringTest;
-import org.junit.jupiter.api.BeforeAll;
+import org.camunda.community.process_test_coverage.spring_test.platform8.ProcessEngineCoverageConfiguration;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
+
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -42,6 +45,7 @@ import static org.mockito.Mockito.*;
 
 @SpringBootTest
 @ZeebeSpringTest
+@Import(ProcessEngineCoverageConfiguration.class)
 public class ValidateVacationProcessTest {
 
 
@@ -74,21 +78,16 @@ public class ValidateVacationProcessTest {
     @InjectMocks
     VacationBookingWorker vacationBookingWorker;
 
-    private ProcessInstanceEvent startProcess() {
-        return this.zeebeClient.newCreateInstanceCommand()
-                .bpmnProcessId(VacationProcessConstants.PROCESS_DEFINITION_KEY)
-                .latestVersion()
-                .send().join();
-    }
-
     @BeforeEach
     void setup() throws InterruptedException, TimeoutException {
         MockitoAnnotations.openMocks(this);
         zeebeTestEngine.waitForIdleState(Duration.ofSeconds(10));
 
-        zeebeClient.newDeployResourceCommand()
+        /* zeebeClient.newDeployResourceCommand()
                 .addResourceFromClasspath("UrlaubsAntrag.bpmn")
                 .send().join();
+                */
+
 
     }
 

@@ -11,7 +11,7 @@
   <description>This project has been migrated from Camunda 7.18 to Camunda 8.1.2</description>
 
   <properties>
-    <camunda.version>8.1.0</camunda.version>
+    <camunda.version>8.1.2</camunda.version>
     <springBoot.version>2.7.5</springBoot.version>
 
     <maven.compiler.source>17</maven.compiler.source>
@@ -55,10 +55,25 @@
       <scope>test</scope>
     </dependency>
 
+    <!-- Force JUnit 5 -->
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <version>5.9.1</version>
+      <scope>test</scope>
+    </dependency>
+
     <dependency>
       <groupId>org.assertj</groupId>
       <artifactId>assertj-core</artifactId>
       <version>3.23.1</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.camunda.community.process_test_coverage</groupId>
+      <artifactId>camunda-process-test-coverage-spring-test-platform-8</artifactId>
+      <version>2.0.0</version>
       <scope>test</scope>
     </dependency>
 
@@ -76,13 +91,6 @@
       <version>4.9.3</version>
     </dependency>
 
-    <!-- Force JUnit 5 -->
-    <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter</artifactId>
-      <version>5.9.1</version>
-      <scope>test</scope>
-    </dependency>
 
   </dependencies>
 
