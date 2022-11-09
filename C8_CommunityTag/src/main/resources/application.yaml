@@ -1,0 +1,13 @@
+zeebe.client:
+  cloud:
+    region:
+    clusterId:
+    clientId:
+    clientSecret:
+  worker:
+    threads: 1
+    maxJobsActive: 32
+sendgrid:
+  api.key:
+  user:
+spring.profiles.active: 'dev'

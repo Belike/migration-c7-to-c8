@@ -1,0 +1,9 @@
+{
+  "request": {
+      "firstName" : "Norman",
+      "lastName" : "Luering",
+      "email" : "norman.luering@camunda.com",
+      "startDate" : "15.11.2022",
+      "endDate" : "21.11.2022"
+  }
+}
