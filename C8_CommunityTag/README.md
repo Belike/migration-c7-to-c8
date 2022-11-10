@@ -8,6 +8,12 @@ Camunda SaaS Trial would be the easiest startup.
 Project is tailored for JDK 17+.
 If JDK 8+ is required, change pom.xml as described here: https://github.com/camunda-community-hub/spring-zeebe#writing-test-cases
 
+## C8 Engine
+
+Trial SaaS can be obtained here: https://accounts.cloud.camunda.io/signup?utm_source=docs.camunda.io&utm_medium=referral
+For SM please take a look here: https://docs.camunda.io/docs/self-managed/platform-deployment/helm-kubernetes/overview/
+
+
 
 ## Start a new Process
 Process Start can best be achieved by running zbctl with:
