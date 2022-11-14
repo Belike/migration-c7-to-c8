@@ -22,6 +22,9 @@ Example start parameters can be found in test/resources
 zbctl publish message 'VacationStart_Message' --correlationKey="" --variables=./startParameterApproval.json
 --address YOUR_ADDRESS --clientId YOUR_CLIENT_ID --clientSecret YOUR_CLIENT_SECRET
 
+
+zbctl publish message 'VacationStart_Message'--correlationKey="test" --variables=./startParameterApproval.json --address '6224ece9-356f-41a3-904d-533e0bfd45aa.bru-2.zeebe.camunda.io:443' --clientId 'OpL7zK8kRcENrRbWa53rrgQLfUzdULPb' --clientSecret 'OpL7zK8kRcENrRbWa53rrgQLfUzdULPb' --authzUrl 'https://login.cloud.camunda.io/oauth/token'
+
 ## Tests
 
 Run mvn tests for process flow and service mockup tests

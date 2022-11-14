@@ -7,6 +7,9 @@ Please find this guide for more information: https://docs.camunda.io/docs/guides
 Tooling:
 Modeler Plugin to convert BPMN models has been used ( https://github.com/camunda-community-hub/camunda-7-to-8-migration/tree/main/modeler-plugin-7-to-8-converter ) 
 
+Slides:
+Slides to the Community Day talk can be found here: https://tinyurl.com/SlidesCommunityDay
+
 Versions used in this project:
 
 Camunda Spring Boot Starter in 7.18.0 

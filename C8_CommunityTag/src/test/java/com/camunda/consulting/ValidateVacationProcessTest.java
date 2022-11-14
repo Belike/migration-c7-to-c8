@@ -10,7 +10,6 @@ import com.camunda.consulting.services.ValidateVacationService;
 import com.camunda.consulting.utils.VacationProcessConstants;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.camunda.zeebe.client.ZeebeClient;
-import io.camunda.zeebe.client.api.response.*;
 import io.camunda.zeebe.process.test.api.ZeebeTestEngine;
 import io.camunda.zeebe.process.test.assertions.BpmnAssert;
 import io.camunda.zeebe.process.test.inspections.InspectionUtility;
@@ -19,7 +18,6 @@ import io.camunda.zeebe.spring.test.ZeebeSpringTest;
 import org.camunda.community.process_test_coverage.spring_test.platform8.ProcessEngineCoverageConfiguration;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -62,9 +60,6 @@ public class ValidateVacationProcessTest {
 
     @Mock
     private ValidateVacationService validateVacationService;
-
-    @Mock
-    VacationBookingService vacationBookingService;
 
     @Autowired
     @InjectMocks
